@@ -14,7 +14,7 @@ import { AboutVision } from "./cmps/AboutVision.jsx"
 import { Dashboard } from "./pages/Dashboard.jsx"
 import { store } from './store/store.js'
 
-export function App() {
+export function RootCmp() {
 
     return (
         <Provider store={store}>
@@ -39,5 +39,6 @@ export function App() {
             </section>
         </Router>
         </Provider>
+
     )
 }

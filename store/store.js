@@ -4,8 +4,8 @@
 const { createStore, combineReducers, compose } = Redux
 
 const rootReducer = combineReducers({
-     todoModule: todoReducer,
-     userModule: userReducer
+     userModule: userReducer,
+     todoModule: todoReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

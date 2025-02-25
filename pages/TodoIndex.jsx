@@ -4,7 +4,7 @@ import { DataTable } from "../cmps/data-table/DataTable.jsx"
 import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadTodos, removeTodo, saveTodo } from '../store/actions/todo.actions.js'
-import { SET_TODOS, SET_FILTER_BY } from '../store/reducers/car.reducer.js'
+import { SET_TODOS, SET_FILTER_BY, UPDATE_TODO, ADD_TODO } from '../store/reducers/todo.reducer.js'
 
 const { useSelector, useDispatch } = ReactRedux
 const { Link, useSearchParams } = ReactRouterDOM
@@ -13,8 +13,8 @@ export function TodoIndex() {
 
     // const [todos, setTodos] = useState(null)
     const todos = useSelector(storeState => storeState.todoMoudle.todos)
-    const filterBy = useSelector(storeState => storeState.carModule.filterBy)
-    const isLoading = useSelector(storeState => storeState.carModule.isLoading)
+    const filterBy = useSelector(storeState => storeState.todoModule.filterBy)
+    const isLoading = useSelector(storeState => storeState.todoModule.isLoading)
 
     const dispatch = useDispatch()
 
@@ -63,6 +63,7 @@ export function TodoIndex() {
                 showErrorMsg('Cannot toggle todo ' + todoId)
             })
     }
+
 
     if (!todos) return <div>Loading...</div>
     return (
