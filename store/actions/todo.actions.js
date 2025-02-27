@@ -1,5 +1,5 @@
 import { todoService } from "../../services/todo.service.js";
-import { REMOVE_TODO, SET_IS_LOADING, SET_TODOS,  UPDATE_TODO } from "../reducers/todo.reducer.js";
+import { REMOVE_TODO, SET_IS_LOADING, SET_TODOS,  UNDO_TODOS,  UPDATE_TODO } from "../reducers/todo.reducer.js";
 import { store } from "../store.js";
 
 export function loadTodos() {
@@ -17,7 +17,15 @@ export function loadTodos() {
             store.dispatch({ type: SET_IS_LOADING, isLoading: false })
         })
 }
-// export function removeCarOptimistic(carId) {
+export function removeCarOptimistic(todoId) {
+    store.dispatch({ type: REMOVE_TODO, todoId })
+    return todoService.remove(todoId)
+        .catch(err => {
+            store.dispatch({ type: UNDO_TODOS })
+            console.log('car action -> Cannot remove todor', err)
+            throw err
+        })
+}
 
 export function removeTodo(todoId) {
     return todoService.remove(todoId)

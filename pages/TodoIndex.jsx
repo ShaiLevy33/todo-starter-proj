@@ -5,14 +5,18 @@ import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadTodos, removeTodo, saveTodo } from '../store/actions/todo.actions.js'
 import { SET_TODOS, SET_FILTER_BY, UPDATE_TODO, ADD_TODO } from '../store/reducers/todo.reducer.js'
-
+const { useEffect } = React
 const { useSelector, useDispatch } = ReactRedux
 const { Link, useSearchParams } = ReactRouterDOM
 
 export function TodoIndex() {
 
     // const [todos, setTodos] = useState(null)
-    const todos = useSelector(storeState => storeState.todoMoudle.todos)
+    const todos = useSelector(storeState => {
+        console.log('storeState:', storeState.todoModule.todos);
+        return storeState.todoModule.todos
+    })
+    console.log('todos:', todos)
     const filterBy = useSelector(storeState => storeState.todoModule.filterBy)
     const isLoading = useSelector(storeState => storeState.todoModule.isLoading)
 
@@ -40,15 +44,9 @@ export function TodoIndex() {
     }
 
     function onRemoveTodo(todoId) {
-        todoService.remove(todoId)
-            .then(() => {
-                setTodos(prevTodos => prevTodos.filter(todo => todo._id !== todoId))
-                showSuccessMsg(`Todo removed`)
-            })
-            .catch(err => {
-                console.log('err:', err)
-                showErrorMsg('Cannot remove todo ' + todoId)
-            })
+        removeTodo(todoId)
+            .then(() => showSuccessMsg('Car removed'))
+            .catch(() => showErrorMsg('Cannot remove car'))
     }
 
     function onToggleTodo(todo) {
@@ -68,7 +66,7 @@ export function TodoIndex() {
     if (!todos) return <div>Loading...</div>
     return (
         <section className="todo-index">
-            <TodoFilter filterBy={filterBy} onSetFilterBy={setFilterBy} />
+            <TodoFilter filterBy={filterBy} onSetFilterBy={onSetFilter} />
             <div>
                 <Link to="/todo/edit" className="btn" >Add Todo</Link>
             </div>
