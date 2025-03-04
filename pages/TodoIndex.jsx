@@ -1,3 +1,7 @@
+const { useEffect } = React
+const { useSelector, useDispatch } = ReactRedux
+const { Link, useSearchParams } = ReactRouterDOM
+
 import { TodoFilter } from "../cmps/TodoFilter.jsx"
 import { TodoList } from "../cmps/TodoList.jsx"
 import { DataTable } from "../cmps/data-table/DataTable.jsx"
@@ -5,9 +9,6 @@ import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadTodos, removeTodo, saveTodo } from '../store/actions/todo.actions.js'
 import { SET_TODOS, SET_FILTER_BY, UPDATE_TODO, ADD_TODO } from '../store/reducers/todo.reducer.js'
-const { useEffect } = React
-const { useSelector, useDispatch } = ReactRedux
-const { Link, useSearchParams } = ReactRouterDOM
 
 export function TodoIndex() {
 
@@ -45,8 +46,8 @@ export function TodoIndex() {
 
     function onRemoveTodo(todoId) {
         removeTodo(todoId)
-            .then(() => showSuccessMsg('Car removed'))
-            .catch(() => showErrorMsg('Cannot remove car'))
+            .then(() => showSuccessMsg('Todo removed'))
+            .catch(() => showErrorMsg('Cannot remove todo'))
     }
 
     function onToggleTodo(todo) {
@@ -54,7 +55,7 @@ export function TodoIndex() {
         todoService.save(todoToSave)
             .then((savedTodo) => {
                 setTodos(prevTodos => prevTodos.map(currTodo => (currTodo._id !== todo._id) ? currTodo : { ...savedTodo }))
-                showSuccessMsg(`Todo is ${(savedTodo.isDone)? 'done' : 'back on your list'}`)
+                showSuccessMsg(`Todo is ${(savedTodo.isDone) ? 'done' : 'back on your list'}`)
             })
             .catch(err => {
                 console.log('err:', err)
@@ -66,17 +67,23 @@ export function TodoIndex() {
     if (!todos) return <div>Loading...</div>
     return (
         <section className="todo-index">
-            <TodoFilter filterBy={filterBy} onSetFilterBy={onSetFilter} />
+            <TodoFilter filterBy={filterBy} onSetFilter={onSetFilter} />
+
             <div>
                 <Link to="/todo/edit" className="btn" >Add Todo</Link>
             </div>
+
             <h2>Todos List</h2>
-            <TodoList todos={todos} onRemoveTodo={onRemoveTodo} onToggleTodo={onToggleTodo} />
+            {!isLoading
+                ? <TodoList todos={todos} onRemoveTodo={onRemoveTodo} onToggleTodo={onToggleTodo}
+                />
+                : <div>Loading..</div>
+            }
             <hr />
             <h2>Todos Table</h2>
             <div style={{ width: '60%', margin: 'auto' }}>
                 <DataTable todos={todos} onRemoveTodo={onRemoveTodo} />
             </div>
-        </section>
+        </section >
     )
 }

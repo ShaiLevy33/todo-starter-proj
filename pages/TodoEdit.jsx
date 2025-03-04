@@ -35,6 +35,11 @@ export function TodoEdit() {
                 value = target.checked
                 break
 
+            // case 'color':
+            //     value = target.color
+            //     break
+
+
             default:
                 break
         }
@@ -55,7 +60,7 @@ export function TodoEdit() {
             })
     }
 
-    const { txt, importance, isDone } = todoToEdit
+    const { txt, importance, isDone , backGroundColor } = todoToEdit
 
     return (
         <section className="todo-edit">
@@ -68,6 +73,9 @@ export function TodoEdit() {
 
                 <label htmlFor="isDone">isDone:</label>
                 <input onChange={handleChange} value={isDone} type="checkbox" name="isDone" id="isDone" />
+
+                <label htmlFor="backGroundColor">Background Color:</label>
+                <input onChange={handleChange} value={backGroundColor} type="color" name="backGroundColor" id="backGroundColor" />
 
 
                 <button>Save</button>

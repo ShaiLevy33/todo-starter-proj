@@ -1,10 +1,10 @@
 import { debounce } from "../services/util.service.js"
 
-const { useState, useEffect,useRef } = React
+const { useState, useEffect, useRef } = React
 
 export function TodoFilter({ filterBy, onSetFilter }) {
 
-    const [filterByToEdit, setFilterByToEdit] = useState({...filterBy})
+    const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
     onSetFilter = useRef(debounce(onSetFilter)).current
 
     useEffect(() => {
@@ -25,6 +25,7 @@ export function TodoFilter({ filterBy, onSetFilter }) {
             case 'checkbox':
                 value = target.checked
                 break
+
 
             default: break
         }
@@ -50,6 +51,13 @@ export function TodoFilter({ filterBy, onSetFilter }) {
                 <input value={importance} onChange={handleChange}
                     type="number" placeholder="By Importance" id="importance" name="importance"
                 />
+
+                <label htmlFor="wayOfFillter">Fillter By </label>
+                <select name="wayOfFillter" id="wayOfFillter" onChange={handleChange}>
+                    <option value="All">All</option>
+                    <option value="Active">Active</option>
+                    <option value="Done">Done</option>
+                </select>
 
                 <button hidden>Set Filter</button>
             </form>

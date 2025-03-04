@@ -17,12 +17,12 @@ export function loadTodos() {
             store.dispatch({ type: SET_IS_LOADING, isLoading: false })
         })
 }
-export function removeCarOptimistic(todoId) {
+export function removeTodoOptimistic(todoId) {
     store.dispatch({ type: REMOVE_TODO, todoId })
     return todoService.remove(todoId)
         .catch(err => {
             store.dispatch({ type: UNDO_TODOS })
-            console.log('car action -> Cannot remove todor', err)
+            console.log('todo action -> Cannot remove todor', err)
             throw err
         })
 }

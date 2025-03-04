@@ -28,6 +28,9 @@ function query(filterBy = {}) {
             if (filterBy.importance) {
                 todos = todos.filter(todo => todo.importance >= filterBy.importance)
             }
+            if (filterBy.wayOfFillter !== 'All'){
+                todos = todos.filter(todo => todo.isDone === (filterBy.wayOfFillter === 'Done'))
+            }
 
             return todos
         })
@@ -57,8 +60,8 @@ function save(todo) {
     }
 }
 
-function getEmptyTodo(txt = '', importance = 5) {
-    return { txt, importance, isDone: false }
+function getEmptyTodo(txt = '', importance = 5, backGroundColor = '#4CAF50' ) {
+    return { txt, importance, isDone: false , backGroundColor}
 }
 
 function getDefaultFilter() {

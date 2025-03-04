@@ -9,11 +9,17 @@ export const SET_FILTER_BY = 'SET_FILTER_BY'
 export const SET_IS_LOADING = 'SET_IS_LOADING'
 export const UNDO_TODOS = 'UNDO_TODOS'
 
+//*Activities   
+export const ADD_TODO_TO_ACTIVITIES = 'ADD_TODO_TO_ACTIVITIES'
+export const REMOVE_TODO_FROM_ACTIVITIES = 'REMOVE_TODO_FROM_ACTIVITIES'
+
 const initialState = {
     todos: [],
     lastTodos: [],
     filterBy: todoService.getDefaultFilter(),
-    isLoading: false
+    isLoading: false,
+    activities: [],
+    // isCartShown: false,
 }
 
 export function todoReducer(state = initialState, cmd = {}) {
@@ -55,6 +61,21 @@ export function todoReducer(state = initialState, cmd = {}) {
                 ...state,
                 todos: [...state.lastTodos]
             }
+
+            // Activities
+            // case TOGGLE_ACTIVITIES_IS_SHOWN:
+            //     return { ...state, isCartShown: !state.isCartShown }
+    
+
+            case ADD_TODO_TO_ACTIVITIES:
+                return {
+                    ...state,
+                    activities: [...state.activities, cmd.todo]
+                }
+
+                case REMOVE_TODO_FROM_ACTIVITIES:
+                    const shoppingCart = state.activities.filter(activity => activity.id !== cmd.activityId)
+                    return { ...state, activities }
         default:
             return state
     }
