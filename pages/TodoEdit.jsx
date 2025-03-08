@@ -1,15 +1,18 @@
+import { INCREMENT } from "../store/reducers/user.reducer.js"
 import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { saveTodo } from "../store/actions/todo.actions.js"
 
 const { useState, useEffect } = React
 const { useNavigate, useParams } = ReactRouterDOM
+const { useDispatch } = ReactRedux
 
 export function TodoEdit() {
 
     const [todoToEdit, setTodoToEdit] = useState(todoService.getEmptyTodo())
     const navigate = useNavigate()
     const params = useParams()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (params.todoId) loadTodo()
@@ -19,6 +22,10 @@ export function TodoEdit() {
         todoService.get(params.todoId)
             .then(setTodoToEdit)
             .catch(err => console.log('err:', err))
+    }
+    function onIncrease() {
+        // setCount(count => count + 1)
+        dispatch({ type: INCREMENT })
     }
 
     function handleChange({ target }) {
@@ -33,6 +40,9 @@ export function TodoEdit() {
 
             case 'checkbox':
                 value = target.checked
+                if (field === 'isDone' && value === true) {
+                    onIncrease()
+                }
                 break
 
             // case 'color':
@@ -60,7 +70,7 @@ export function TodoEdit() {
             })
     }
 
-    const { txt, importance, isDone , backGroundColor } = todoToEdit
+    const { txt, importance, isDone, backGroundColor } = todoToEdit
 
     return (
         <section className="todo-edit">

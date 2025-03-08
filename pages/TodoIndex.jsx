@@ -50,6 +50,7 @@ export function TodoIndex() {
             .catch(() => showErrorMsg('Cannot remove todo'))
     }
 
+
     function onToggleTodo(todo) {
         const todoToSave = { ...todo, isDone: !todo.isDone }
         todoService.save(todoToSave)

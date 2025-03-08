@@ -1,6 +1,6 @@
 import { userService } from "../../services/user.service.js"
 
-//* Count
+//* balance
 export const INCREMENT = 'INCREMENT'
 export const CHANGE_BY = 'CHANGE_BY'
 
@@ -8,9 +8,14 @@ export const CHANGE_BY = 'CHANGE_BY'
 export const SET_USER = 'SET_USER'
 export const SET_USER_SCORE = 'SET_USER_SCORE'
 
+//*Activities   
+export const ADD_TODO_TO_ACTIVITIES = 'ADD_TODO_TO_ACTIVITIES'
+export const REMOVE_TODO_FROM_ACTIVITIES = 'REMOVE_TODO_FROM_ACTIVITIES'
+
 
 const initialState = {
-    count: 10000,
+    balance: 10000,
+    activities: [],
     loggedInUser: userService.getLoggedinUser(),
 }
 
@@ -21,20 +26,32 @@ export function userReducer(state = initialState, cmd = {}) {
                 ...state,
                 loggedInUser: cmd.user
             }
-            case INCREMENT:
-                return {
-                    ...state,
-                    count: state.count + 10
-                }
-            case CHANGE_BY:
-                return {
-                    ...state,
-                    count: state.count + cmd.diff
-                }
-            
+        case INCREMENT:
+            return {
+                ...state,
+                balance: state.balance + 10
+            }
+        case CHANGE_BY:
+            return {
+                ...state,
+                balance: state.balance + cmd.diff
+            }
+
         case SET_USER_SCORE:
             const loggedInUser = { ...state.loggedInUser, score: cmd.score }
             return { ...state, loggedInUser }
+
+
+        case ADD_TODO_TO_ACTIVITIES:
+            return {
+                ...state,
+                activities: [...state.activities, cmd.todo]
+            }
+
+        case REMOVE_TODO_FROM_ACTIVITIES:
+            const shoppingCart = state.activities.filter(activity => activity.id !== cmd.activityId)
+            return { ...state, activities }
+
         default:
             return state
 

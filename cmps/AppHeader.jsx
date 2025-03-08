@@ -12,6 +12,7 @@ import { showErrorMsg } from '../services/event-bus.service.js'
 export function AppHeader() {
     // const navigate = useNavigate()
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
+    const balance = useSelector(storeState => storeState.userModule.balance)
     // const [user, setUser] = useState(userService.getLoggedinUser())
     
     function onLogout() {
@@ -35,7 +36,7 @@ export function AppHeader() {
                 {user ? (
                     < section >
 
-                        <Link to={`/user/${user._id}`}>Hello {user.fullname}</Link>
+                        <Link to={`/user/${user._id}`}>Hello {user.fullname} Balance : {balance}</Link>
                         <button onClick={onLogout}>Logout</button>
                     </ section >
                 ) : (

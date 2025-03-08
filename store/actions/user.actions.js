@@ -35,6 +35,5 @@ export function logout() {
         })
 }
 
-// export function checkout(diff) {
-
+// 
 
